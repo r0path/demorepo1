@@ -1,7 +1,5 @@
 <?php
 
-<?php
-
 // Include utility functions
 include 'utils.php';
 
@@ -10,7 +8,5 @@ include 'utils.php';
  * This helps prevent XSS attacks by converting special characters to HTML entities.
  */
 echo sanitize_input($_GET["search"]);
-
-?>
 
 ?>
