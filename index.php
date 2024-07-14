@@ -1,5 +1,7 @@
 <?php
 
-echo htmlspecialchars($_GET["search"], ENT_QUOTES, 'UTF-8');
+include 'utils.php';
+
+echo sanitize_input($_GET["search"]);
 
 ?>
