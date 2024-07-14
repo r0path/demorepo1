@@ -1,5 +1,4 @@
 <?php
-<?php
 include 'utils.php';
 
 $mysqli = new mysqli("localhost", "user", "password", "database");
