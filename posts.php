@@ -1,4 +1,7 @@
 <?php
+<?php
+include 'utils.php';
+
 $mysqli = new mysqli("localhost", "user", "password", "database");
 
 if ($mysqli->connect_error) {
@@ -6,8 +9,8 @@ if ($mysqli->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+    $title = sanitize_input($_POST['title']);
+    $content = sanitize_input($_POST['content']);
 
     $stmt = $mysqli->prepare("INSERT INTO posts (title, content) VALUES (?, ?)");
     $stmt->bind_param("ss", $title, $content);
@@ -36,8 +39,8 @@ $result = $mysqli->query("SELECT * FROM posts");
     <h2>Posts</h2>
     <ul>
         <?php
-            echo htmlspecialchars($_GET['title'] ?? '', ENT_QUOTES, 'UTF-8');
-            echo htmlspecialchars($_GET['body'] ?? '', ENT_QUOTES, 'UTF-8');
+            echo sanitize_input($_GET['title'] ?? '');
+            echo sanitize_input($_GET['body'] ?? '');
         ?>
     </ul>
 </body>
