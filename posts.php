@@ -35,8 +35,8 @@ $result = $mysqli->query("SELECT * FROM posts");
     <h2>Posts</h2>
     <ul>
         <?php
-            echo $_GET['title'];
-            echo $_GET['body'];
+            echo htmlspecialchars($_GET['title'] ?? '', ENT_QUOTES, 'UTF-8');
+            echo htmlspecialchars($_GET['body'] ?? '', ENT_QUOTES, 'UTF-8');
         ?>
     </ul>
 </body>
