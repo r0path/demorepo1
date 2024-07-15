@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $result = $mysqli->query("SELECT * FROM posts");
-
 ?>
 
 <!DOCTYPE html>
