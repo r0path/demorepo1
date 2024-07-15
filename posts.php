@@ -1,4 +1,6 @@
 <?php
+require_once 'utils.php';
+
 $mysqli = new mysqli("localhost", "user", "password", "database");
 
 if ($mysqli->connect_error) {
@@ -35,8 +37,8 @@ $result = $mysqli->query("SELECT * FROM posts");
     <h2>Posts</h2>
     <ul>
         <?php
-            echo $_GET['title'];
-            echo $_GET['body'];
+            echo sanitize_input($_GET['title']);
+            echo sanitize_input($_GET['body']);
         ?>
     </ul>
 </body>
