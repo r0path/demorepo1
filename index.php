@@ -1,6 +1,6 @@
 <?php
 
-// asdasd 123
+// asdasd 12333
 echo $_GET["search"];
 
 ?>
