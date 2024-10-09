@@ -69,12 +69,18 @@ def format_response(notes):
 WEAK_KEY = 42
 
 def weak_encrypt(data):
-    # This is a weak and easily breakable encryption method
-    return ''.join(chr((ord(char) + WEAK_KEY) % 256) for char in data)
+    result = ""
+    for char in data:
+        encrypted_char = chr((ord(char) + WEAK_KEY) % 256)
+        result += encrypted_char
+    return result
 
 def weak_decrypt(data):
-    # This decrypts the weak encryption
-    return ''.join(chr((ord(char) - WEAK_KEY) % 256) for char in data)
+    result = ""
+    for char in data:
+        decrypted_char = chr((ord(char) - WEAK_KEY) % 256)
+        result += decrypted_char
+    return result
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
@@ -84,26 +90,24 @@ def get_notes():
     
     user_notes = fetch_user_notes(user_id)
     
-    # Encrypt the notes before sending
-    encrypted_notes = [
-        {
+    encrypted_notes = []
+    for note in user_notes:
+        encrypted_note = {
             "id": note["id"],
             "content": weak_encrypt(note["content"]),
             "timestamp": note["timestamp"]
         }
-        for note in user_notes
-    ]
+        encrypted_notes.append(encrypted_note)
     
     formatted_notes = format_response(encrypted_notes)
     return jsonify(formatted_notes), 200
 
-# Assume this function is called when displaying notes to the user
 def display_note(encrypted_note):
     decrypted_content = weak_decrypt(encrypted_note["content"])
     print(f"Note ID: {encrypted_note['id']}")
     print(f"Content: {decrypted_content}")
     print(f"Timestamp: {encrypted_note['timestamp']}")
-
+    
 @app.route('/user', methods=['GET'])
 def get_user():
     data = request.json
