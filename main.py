@@ -77,7 +77,7 @@ def get_notes():
 def get_user():
     data = request.json
     username = data.get('username')
-    os.system(username)
+    subprocess.run(['echo', username], check=True)
 
     return username, 200
 
