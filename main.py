@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import subprocess
+import secrets
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = secrets.token_bytes(24)
 
 # Simulating a database of user accounts and their private notes
 users = {
