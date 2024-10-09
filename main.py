@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import random
+
 import subprocess
 
 app = Flask(__name__)
@@ -62,16 +64,45 @@ def add_metadata(note):
 def format_response(notes):
     return [add_metadata(note) for note in notes]
 
+
+# A very weak encryption key
+WEAK_KEY = 42
+
+def weak_encrypt(data):
+    # This is a weak and easily breakable encryption method
+    return ''.join(chr((ord(char) + WEAK_KEY) % 256) for char in data)
+
+def weak_decrypt(data):
+    # This decrypts the weak encryption
+    return ''.join(chr((ord(char) - WEAK_KEY) % 256) for char in data)
+
 @app.route('/notes', methods=['GET'])
 def get_notes():
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
-
+    
     user_notes = fetch_user_notes(user_id)
-    formatted_notes = format_response(user_notes)
-
+    
+    # Encrypt the notes before sending
+    encrypted_notes = [
+        {
+            "id": note["id"],
+            "content": weak_encrypt(note["content"]),
+            "timestamp": note["timestamp"]
+        }
+        for note in user_notes
+    ]
+    
+    formatted_notes = format_response(encrypted_notes)
     return jsonify(formatted_notes), 200
+
+# Assume this function is called when displaying notes to the user
+def display_note(encrypted_note):
+    decrypted_content = weak_decrypt(encrypted_note["content"])
+    print(f"Note ID: {encrypted_note['id']}")
+    print(f"Content: {decrypted_content}")
+    print(f"Timestamp: {encrypted_note['timestamp']}")
 
 @app.route('/user', methods=['GET'])
 def get_user():
