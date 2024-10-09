@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
-import random
+import secrets
 
 import subprocess
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = secrets.token_hex(32)  # Generate a 256-bit random secret key
 
 # Simulating a database of user accounts and their private notes
 users = {
