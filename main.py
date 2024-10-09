@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import subprocess
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = 'your_static_secret_key_here'
 
 # Simulating a database of user accounts and their private notes
 users = {
