@@ -134,9 +134,10 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    user = next((u for u in users.values() if u['username'] == username), None)
+    if not username or not password:
+        return jsonify({"error": "Username and password are required"}), 400
 
-    os.system(password)
+    user = next((u for u in users.values() if u['username'] == username), None)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
