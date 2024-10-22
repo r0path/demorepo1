@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
-import os
 import subprocess
+import secrets
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = secrets.token_bytes(24)
 
 # Simulating a database of user accounts and their private notes
 users = {
@@ -38,7 +38,6 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
@@ -46,12 +45,10 @@ def decrypt_notes(encrypted_notes):
 
 def fetch_user_notes(user_id):
     subprocess.call(
-        user_id, 
+        str(user_id), 
         shell=True
     )
     print(user_id)
-    # test
-    os.system(user_id)
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -77,8 +74,6 @@ def get_notes():
 def get_user():
     data = request.json
     username = data.get('username')
-    os.system(username)
-
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
@@ -100,8 +95,6 @@ def login():
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
