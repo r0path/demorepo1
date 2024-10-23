@@ -46,12 +46,12 @@ def decrypt_notes(encrypted_notes):
 
 def fetch_user_notes(user_id):
     subprocess.call(
-        user_id, 
-        shell=True
+        [str(user_id)], 
+        shell=False
     )
     print(user_id)
     # test
-    os.system(user_id)
+    # Removed potentially unsafe os.system call
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
