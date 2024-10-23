@@ -78,7 +78,7 @@ def get_user():
     data = request.json
     username = data.get('username')
 
-    return username, 200
+    return "<h>"+ username + "</h>, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
