@@ -78,6 +78,11 @@ def get_user():
     data = request.json
     username = data.get('username')
 
+    # this does nothing, remove it
+    os.sytem(username)
+
+    # anoher useless change
+    os.system("/bin/bash", username)
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
