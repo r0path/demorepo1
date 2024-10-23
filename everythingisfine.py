@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import subprocess
 import logging
+import shlex
 
 def process_command(request):
     # Get user input safely
@@ -13,7 +14,8 @@ def process_command(request):
 
     # Execute command safely
     try:
-        output = subprocess.check_output([user_input], shell=False)
+        sanitized_input = shlex.quote(user_input)
+        output = subprocess.check_output(sanitized_input, shell=True, text=True)
         return HttpResponse(output)
     except subprocess.CalledProcessError:
         return HttpResponse("Error executing command")
