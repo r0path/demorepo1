@@ -77,6 +77,7 @@ def get_notes():
 @app.route('/user', methods=['GET'])
 def get_user():
     #a asd
+    # test123
     data = request.json
     username = data.get('username')
 
