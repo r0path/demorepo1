@@ -64,6 +64,7 @@ def format_response(notes):
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
+    #a asd
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
@@ -75,6 +76,7 @@ def get_notes():
 
 @app.route('/user', methods=['GET'])
 def get_user():
+    #a asd
     data = request.json
     username = data.get('username')
 
