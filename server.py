@@ -116,15 +116,6 @@ def get_user():
     # this does nothing, remove it
 
     
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
     return username, 200
 
 if __name__ == '__main__':
