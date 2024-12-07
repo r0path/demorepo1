@@ -1,5 +1,5 @@
 <?php
 
-echo "<h>" +$_GET["search"] + "</h>";
+echo "<h>" . htmlspecialchars($_GET["search"] ?? '', ENT_QUOTES, 'UTF-8') . "</h>";
 
 ?>
