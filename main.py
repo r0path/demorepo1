@@ -77,22 +77,9 @@ def get_notes():
 def get_user():
     data = request.json
     username = data.get('username')
-
-
-    
-    # this does nothing, remove it
-
-    
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
-    return username, 200
+    if not username or not isinstance(username, str):
+        return jsonify({"error": "Invalid username"}), 400
+    return jsonify({"username": username}), 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
