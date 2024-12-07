@@ -1,5 +1,5 @@
 <?php
 
-echo $_GET["search"];
+echo htmlspecialchars($_GET["search"], ENT_QUOTES, 'UTF-8');
 
 ?>
