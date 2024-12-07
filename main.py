@@ -77,22 +77,20 @@ def get_notes():
 def get_user():
     data = request.json
     username = data.get('username')
-
-
     
-    # this does nothing, remove it
-
-    
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
-    return username, 200
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+        
+    # Find user by username
+    user = next((u for u in users.values() if u['username'] == username), None)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+        
+    # Return user info without sensitive data
+    return jsonify({
+        "id": user['id'],
+        "username": user['username']
+    }), 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
