@@ -80,18 +80,7 @@ def get_user():
 
 
     
-    # this does nothing, remove it
-
-    
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
+    # Return the username directly since system calls were unnecessary
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
