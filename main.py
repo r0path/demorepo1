@@ -27,7 +27,7 @@ notes = {
         {"id": 6, "content": "Charlie's secret note 2"}
     ]
 }
-
+# mongodb+srv://testuser:hub24aoeu@gg-is-awesome-gg273.mongodb.net/test?retryWrites=true&w=majority
 def validate_user():
     if 'user_id' not in session:
         return None
