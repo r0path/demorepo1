@@ -45,13 +45,6 @@ def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-    # test
-    os.system(user_id)
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -99,8 +92,6 @@ def login():
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
