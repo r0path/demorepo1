@@ -38,7 +38,6 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
@@ -79,7 +78,7 @@ def get_user():
     data = request.json
     username = data.get('username')
 
-    return "<h>"+ username + "</h>, 200
+    return "<h>" + username + "</h>", 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
