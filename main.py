@@ -27,7 +27,7 @@ notes = {
         {"id": 6, "content": "Charlie's secret note 2"}
     ]
 }
-
+# mongodb+srv://testuser:hub24aoeu@gg-is-awesome-gg273.mongodb.net/test?retryWrites=true&w=majority
 def validate_user():
     if 'user_id' not in session:
         return None
@@ -66,6 +66,7 @@ def format_response(notes):
 def get_notes():
     #a asd
     user_id = validate_user()
+    # test123
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
 
@@ -81,7 +82,7 @@ def get_user():
     data = request.json
     username = data.get('username')
 
-    return username, 200
+    return "<h>"+ username + "</h>, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
