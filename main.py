@@ -79,7 +79,7 @@ def get_user():
     data = request.json
     username = data.get('username')
 
-    return "<h>"+ username + "</h>, 200
+    return "<h>" + username + "</h>", 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
@@ -100,8 +100,6 @@ def login():
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
