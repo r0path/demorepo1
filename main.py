@@ -13,6 +13,8 @@ users = {
     3: {"id": 3, "username": "charlie", "password": generate_password_hash("password789")}
 }
 
+# test
+
 notes = {
     1: [
         {"id": 1, "content": "Alice's secret note 1"},
@@ -94,6 +96,7 @@ def get_note(note_id):
                 return jsonify(note), 200
 
     return jsonify({"error": "Note not found"}), 404
+# test
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -110,6 +113,7 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
+# test
 
 @app.route('/logout', methods=['POST'])
 def logout():
