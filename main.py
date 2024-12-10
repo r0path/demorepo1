@@ -10,6 +10,8 @@ app.secret_key = os.urandom(24)
 
 
 
+
+
 # Simulating a database of user accounts and their private notes
 users = {
     1: {"id": 1, "username": "alice", "password": generate_password_hash("password123")},
