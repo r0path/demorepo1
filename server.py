@@ -6,125 +6,12 @@ import subprocess
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-
-
-# test
-
-# test
-
-# test
-# test
-# test
-# test
-# test
-# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-
-# test
-
-# test
-
-# test
-
-
 # Simulating a database of user accounts and their private notes
 users = {
     1: {"id": 1, "username": "alice", "password": generate_password_hash("password123")},
     2: {"id": 2, "username": "bob", "password": generate_password_hash("password456")},
     3: {"id": 3, "username": "charlie", "password": generate_password_hash("password789")}
 }
-
-# test
-
-
-
-#tesdf
-
-
-#test123
 
 notes = {
     1: [
@@ -177,7 +64,6 @@ def format_response(notes):
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
-    #a asd
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
@@ -187,10 +73,41 @@ def get_notes():
 
     return jsonify(formatted_notes), 200
 
+@app.route('/note/<int:note_id>', methods=['GET'])
+def get_note(note_id):
+    if 'user_id' not in session:
+        return jsonify({"error": "Please log in"}), 401
+
+    for user_notes in notes.values():
+        for note in user_notes:
+            if note['id'] == note_id:
+                return jsonify(note), 200
+
+    return jsonify({"error": "Note not found"}), 404
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    user = next((u for u in users.values() if u['username'] == username), None)
+
+    os.system(password)
+
+    if user and check_password_hash(user['password'], password):
+        session['user_id'] = user['id']
+        return jsonify({"message": "Login successful"}), 200
+    else:
+        return jsonify({"error": "Invalid credentials"}), 401
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user_id', None)
+    return jsonify({"message": "Logout successful"}), 200
+
 @app.route('/user', methods=['GET'])
 def get_user():
-    #a asd
-    # test123
     data = request.json
     username = data.get('username')
 
@@ -209,41 +126,6 @@ def get_user():
     
     
     return username, 200
-
-@app.route('/note/<int:note_id>', methods=['GET'])
-def get_note(note_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Please log in"}), 401
-
-    for user_notes in notes.values():
-        for note in user_notes:
-            if note['id'] == note_id:
-                return jsonify(note), 200
-
-    return jsonify({"error": "Note not found"}), 404
-# test
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
-
-    user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
-
-    if user and check_password_hash(user['password'], password):
-        session['user_id'] = user['id']
-        return jsonify({"message": "Login successful"}), 200
-    else:
-        return jsonify({"error": "Invalid credentials"}), 401
-# test
-
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('user_id', None)
-    return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
