@@ -1,9 +1,22 @@
+"""
+Secure Note-Taking API
+----------------------
+A Flask-based REST API that provides secure note storage and retrieval
+with user authentication and session management.
+
+Security Features:
+- Password hashing
+- Session-based authentication
+- Per-user data isolation
+"""
+
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
 
 app = Flask(__name__)
+# Generate a random secret key for session security
 app.secret_key = os.urandom(24)
 
 # Simulating a database of user accounts and their private notes
@@ -29,11 +42,19 @@ notes = {
 }
 
 def validate_user():
+    """
+    Validates the current user's session.
+    Returns user_id if authenticated, None otherwise.
+    """
     if 'user_id' not in session:
         return None
     return session['user_id']
 
 def reverse_content(content):
+    """
+    Simple content transformation function.
+    Reverses the string content for demonstration purposes.
+    """
     return content[::-1]
 
 def apply_decryption(note):
@@ -64,6 +85,12 @@ def format_response(notes):
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
+    """
+    Endpoint: GET /notes
+    Returns all notes for the authenticated user.
+    Requires: Valid session
+    Returns: JSON array of notes with metadata
+    """
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
@@ -94,6 +121,12 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
+    """
+    Endpoint: POST /login
+    Authenticates user credentials and creates a session.
+    Required JSON body: {"username": string, "password": string}
+    Returns: Success message or error
+    """
     data = request.json
     username = data.get('username')
     password = data.get('password')
@@ -110,6 +143,11 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
+    """
+    Endpoint: POST /logout
+    Terminates the current user session.
+    Returns: Success confirmation message
+    """
     session.pop('user_id', None)
     return jsonify({"message": "Logout successful"}), 200
 
