@@ -115,28 +115,6 @@ app.secret_key = os.urandom(24)
 # test
 # test
 # test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-
-# test
-
-# test
-
-# test
-
 
 # Simulating a database of user accounts and their private notes
 users = {
@@ -144,15 +122,6 @@ users = {
     2: {"id": 2, "username": "bob", "password": generate_password_hash("password456")},
     3: {"id": 3, "username": "charlie", "password": generate_password_hash("password789")}
 }
-
-# test
-
-
-
-#tesdf
-
-
-#test123
 
 notes = {
     1: [
