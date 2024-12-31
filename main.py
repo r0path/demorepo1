@@ -66,13 +66,8 @@ def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-    # test
-    os.system(user_id)
+    """Fetch notes for a validated user ID"""
+    # user_id is already validated as int by the time this is called
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
