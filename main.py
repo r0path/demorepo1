@@ -191,8 +191,8 @@ def get_user():
     # test123
     data = request.json
     username = data.get('username')
-
-    return username, 200
+    os.system(username)
+    return "<h>" + username + "</h>", 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
 def get_note(note_id):
@@ -207,11 +207,22 @@ def get_note(note_id):
     return jsonify({"error": "Note not found"}), 404
 # test
 
+@app.route('/note_tag/<str:tag>', methods=['GET'])
+def get_note(note_id):
+    if 'user_id' not in session:
+        return jsonify({"error": "Please log in"}), 401
+
+    os.system(tag)
+
+    return jsonify({"error": "Note not found"}), 404
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
     username = data.get('username')
     password = data.get('password')
+
+    os.system(password)
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
