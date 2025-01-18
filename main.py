@@ -93,6 +93,10 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
+@app.route('/echo/<str:echo>', methods=['GET'])
+def get_echo(echo):
+
+    return "<h>" + echo + "</h>", 200
 
 @app.route('/login', methods=['POST'])
 def login():
