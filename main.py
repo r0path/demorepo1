@@ -99,7 +99,10 @@ def get_echo():
     data = request.json
     echo = data.get('echo', '')
     
-    # Escape the user input to prevent XSS
+    # Security Fix: Prevent Cross-Site Scripting (XSS) attacks
+    # The original code was vulnerable to XSS because it directly inserted user input into HTML
+    # By using markupsafe.escape(), we convert special characters like < > & " ' into their HTML entities
+    # This prevents malicious scripts from being executed when the response is rendered in a browser
     safe_echo = escape(echo)
     return f"<h>{safe_echo}</h>", 200
 
