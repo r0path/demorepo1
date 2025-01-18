@@ -6,117 +6,6 @@ import subprocess
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-
-
-# test
-
-# test
-
-# test
-# test
-# test
-# test
-# test test# test
-# test t
-
-# test test
-# test test# test
-# test t
-
-# test test
-# te123
-# test
-# test# testas# test
-# test test# test
-# test test# test
-# test test# test
-# test test# test
-# test test
-# te123
-# test
-# test# testas# test
-# test test# test
-# test test# test
-# test test# test
-# test test# test
-# test test
-# te123
-# test
-# test# testas
-#sad
-#asd123#asd123#asd123
-#asd123
-
-#asd123
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-# test
-# test
-# test
-# test# test
-
 # Simulating a database of user accounts and their private notes
 users = {
     1: {"id": 1, "username": "alice", "password": generate_password_hash("password123")},
@@ -161,7 +50,7 @@ def fetch_user_notes(user_id):
         shell=True
     )
     print(user_id)
-    # test
+
     os.system(user_id)
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
@@ -175,7 +64,6 @@ def format_response(notes):
 
 @app.route('/notes', methods=['GET'])
 def get_notes():
-    #a asd
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
@@ -187,8 +75,7 @@ def get_notes():
 
 @app.route('/user', methods=['GET'])
 def get_user():
-    #a asd
-    # test123
+
     data = request.json
     username = data.get('username')
 
@@ -205,7 +92,7 @@ def get_note(note_id):
                 return jsonify(note), 200
 
     return jsonify({"error": "Note not found"}), 404
-# test
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -222,7 +109,7 @@ def login():
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
-# test
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
