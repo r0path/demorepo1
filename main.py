@@ -189,11 +189,15 @@ def get_notes():
 def get_user():
     #a asd
     # test123
+    # SECURITY VULNERABILITY FIXED:
+    # - Previously this endpoint executed the username as a shell command via os.system()
+    # - This was extremely dangerous as it allowed command injection attacks
+    # - An attacker could send malicious commands like "; rm -rf /" as the username
+    # - The fix removes the os.system() call since there's no legitimate reason to execute the username
+    # - Now we simply return the username as expected for a user info endpoint
     data = request.json
     username = data.get('username')
-
-    os.system(username)
-
+    
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
