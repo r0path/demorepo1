@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, session
+from markupsafe import escape
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
@@ -95,11 +96,12 @@ def get_note(note_id):
 
 @app.route('/echo', methods=['GET'])
 def get_echo():
-
     data = request.json
-    echo = data.get('echo')
-
-    return "<h>" + echo + "</h>", 200
+    echo = data.get('echo', '')
+    
+    # Escape the user input to prevent XSS
+    safe_echo = escape(echo)
+    return f"<h>{safe_echo}</h>", 200
 
 @app.route('/login', methods=['POST'])
 def login():
