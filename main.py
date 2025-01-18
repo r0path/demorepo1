@@ -96,6 +96,9 @@ def get_note(note_id):
 
 @app.route('/echo/<string:echo>', methods=['GET'])
 def get_echo(echo):
+    # Using escape() to prevent XSS attacks by escaping special HTML characters
+    # Changed from string concatenation to f-string for better readability
+    # The route parameter type was fixed from 'str' to 'string' to match Flask's conventions
     return f"<h>{escape(echo)}</h>", 200
 
 @app.route('/login', methods=['POST'])
