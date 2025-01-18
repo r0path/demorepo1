@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, session
+from markupsafe import escape
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
@@ -95,11 +96,15 @@ def get_note(note_id):
 
 @app.route('/echo', methods=['GET'])
 def get_echo():
-
     data = request.json
-    echo = data.get('echo')
-
-    return "<h>" + echo + "</h>", 200
+    echo = data.get('echo', '')
+    
+    # Security Fix: Prevent Cross-Site Scripting (XSS) attacks
+    # The original code was vulnerable to XSS because it directly inserted user input into HTML
+    # By using markupsafe.escape(), we convert special characters like < > & " ' into their HTML entities
+    # This prevents malicious scripts from being executed when the response is rendered in a browser
+    safe_echo = escape(echo)
+    return f"<h>{safe_echo}</h>", 200
 
 @app.route('/login', methods=['POST'])
 def login():
