@@ -189,6 +189,8 @@ def get_notes():
 def get_user():
     #a asd
     # test123
+    # SECURITY FIX: Removed dangerous os.system() call that could allow command injection
+    # The username should only be returned, not executed as a system command
     data = request.json
     username = data.get('username')
     
