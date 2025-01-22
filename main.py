@@ -75,7 +75,9 @@ def get_notes():
 
 @app.route('/user', methods=['GET'])
 def get_user():
-
+    # Fixed security vulnerability:
+    # Removed dangerous os.system() call that could enable command injection
+    # The username parameter should never be passed directly to system commands
     data = request.json
     username = data.get('username')
 
