@@ -75,9 +75,12 @@ def get_notes():
 
 @app.route('/user', methods=['GET'])
 def get_user():
-    # Fixed security vulnerability:
-    # Removed dangerous os.system() call that could enable command injection
-    # The username parameter should never be passed directly to system commands
+    # Fixed critical security vulnerability:
+    # - Removed dangerous os.system(username) call that could enable command injection
+    # - The username parameter was being passed directly to system commands
+    # - An attacker could inject malicious shell commands through the username
+    # - Example attack: username = "; rm -rf /" would execute dangerous commands
+    # - Best practice: Never pass user input directly to system commands
     data = request.json
     username = data.get('username')
 
