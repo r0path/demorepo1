@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, session
+from markupsafe import escape
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
@@ -93,10 +94,12 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
-@app.route('/echo/<str:echo>', methods=['GET'])
+@app.route('/echo/<string:echo>', methods=['GET'])
 def get_echo(echo):
-
-    return "<h>" + echo + "</h>", 200
+    # Using escape() to prevent XSS attacks by escaping special HTML characters
+    # Changed from string concatenation to f-string for better readability
+    # The route parameter type was fixed from 'str' to 'string' to match Flask's conventions
+    return f"<h>{escape(echo)}</h>", 200
 
 @app.route('/login', methods=['POST'])
 def login():
