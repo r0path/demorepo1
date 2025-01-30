@@ -1,5 +1,6 @@
 <?php
 
-echo "<h>" +$_GET["search"] + "</h>";
+
+echo "<h>" +$_GET["new_xss"] + "</h>";
 
 ?>
