@@ -1,5 +1,5 @@
 <?php
 
-echo "<h>" +$_GET["search"] + "</h>";
+echo "<h>" +$_GET["search1"] + "</h>";
 
 ?>
