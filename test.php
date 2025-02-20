@@ -16,12 +16,21 @@ function login($username, $password) {
         die("Connection failed: ". $conn->connect_error);
     }
 
-    // admin
-    // gdhas' OR 1=1 #
-
-    // Prepare and bind parameters to prevent SQL injection
+    // 🛡️ SECURE LOGIN IMPLEMENTATION 🛡️
+    //
+    // Previous vulnerability:
+    // The old code was vulnerable to SQL injection attacks like:
+    // Username: admin
+    // Password: ' OR '1'='1
+    //
+    // 🔒 Security Enhancement 🔒
+    // Using prepared statements to prevent SQL injection:
+    // 1. Query template with placeholders (?)
+    // 2. Parameters bound separately
+    // 3. Safe execution guaranteed!
+    
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("ss", $username, $password); // Types: 's' for strings
     $stmt->execute();
     $result = $stmt->get_result();
 
