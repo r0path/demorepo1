@@ -48,15 +48,13 @@ def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-
-    os.system(user_id)
-    user_notes = notes.get(user_id, [])
-    return decrypt_notes(user_notes)
+    try:
+        # Ensure user_id is an integer
+        user_id = int(user_id)
+        user_notes = notes.get(user_id, [])
+        return decrypt_notes(user_notes)
+    except (ValueError, TypeError):
+        return []
 
 def add_metadata(note):
     note['timestamp'] = '2023-09-15 12:00:00'
