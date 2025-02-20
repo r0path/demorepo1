@@ -48,6 +48,11 @@ def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
+    # Retrieves and decrypts notes for a given user
+    # Parameters:
+    #   user_id: integer - The ID of the user whose notes to fetch
+    # Returns:
+    #   list - A list of decrypted notes for the user, or empty list if user not found
     try:
         # Ensure user_id is an integer
         user_id = int(user_id)
