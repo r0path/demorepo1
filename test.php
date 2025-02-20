@@ -19,10 +19,11 @@ function login($username, $password) {
     // admin
     // gdhas' OR 1=1 #
 
-    // Query database
-    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-
-    $result = $conn->query($query);
+    // Prepare and bind parameters to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+    $stmt->bind_param("ss", $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     // Check if user exists
     if ($result->num_rows > 0) {
