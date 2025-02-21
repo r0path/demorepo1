@@ -47,7 +47,6 @@ def reverse_content(content):
 # ===== END OF SECURITY CHANGES =====
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)  # SECURITY RISK: Direct system call with unsanitized input
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
@@ -139,8 +138,6 @@ def login():
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)  # CRITICAL: Remove this dangerous system call
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
