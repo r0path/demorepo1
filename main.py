@@ -120,6 +120,11 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
+    # ===== START OF SECURITY CHANGES =====
+    # SECURITY ISSUE: This endpoint has multiple vulnerabilities
+    # 1. Unsanitized system call with password (command injection risk)
+    # 2. No rate limiting on login attempts (brute force risk)
+    # 3. No logging of failed attempts (audit trail missing)
     # SECURITY ISSUE: This endpoint has multiple vulnerabilities
     # 1. Unsanitized system call with password (command injection risk)
     # 2. No rate limiting on login attempts (brute force risk)
