@@ -2,9 +2,35 @@ from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
+import re
+import html
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+def sanitize_input(data):
+    """
+    Sanitize user input to prevent injection attacks
+    - Strips special characters
+    - HTML escapes content
+    - Limits string length
+    """
+    if not isinstance(data, (str, int)):
+        return ""
+    
+    # Convert to string
+    data = str(data)
+    
+    # Limit length
+    data = data[:1000]
+    
+    # Remove special characters
+    data = re.sub(r'[^a-zA-Z0-9\s\-_]', '', data)
+    
+    # HTML escape
+    data = html.escape(data)
+    
+    return data
 
 
 # Simulating a database of user accounts and their private notes# Simulating a database of user accounts and their private notes
@@ -134,8 +160,8 @@ def login():
     # 2. No rate limiting on login attempts (brute force risk)
     # 3. No logging of failed attempts (audit trail missing)
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    username = sanitize_input(data.get('username'))
+    password = data.get('password')  # Don't sanitize password, just hash it
 
     user = next((u for u in users.values() if u['username'] == username), None)
 

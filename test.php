@@ -1,6 +1,21 @@
 <?php
 
+function sanitize_input($data) {
+    // Remove special characters
+    $data = preg_replace("/[^a-zA-Z0-9\s\-_]/", "", $data);
+    
+    // Limit length
+    $data = substr($data, 0, 1000);
+    
+    // HTML escape
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    
+    return $data;
+}
+
 function login($username, $password) {
+    // Sanitize username but not password (it will be hashed)
+    $username = sanitize_input($username);
     // Configuration
     $db_host = 'localhost';
     $db_username = 'root';
