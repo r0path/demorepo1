@@ -29,6 +29,11 @@ function login($username, $password) {
     // 2. Parameters bound separately
     // 3. Safe execution guaranteed!
     
+    // SECURITY BEST PRACTICES:
+    // 1. Using prepared statements prevents SQL injection by separating SQL logic from data
+    // 2. The '?' placeholders ensure parameters are properly escaped
+    // 3. bind_param() handles proper escaping and type safety
+    // 4. Password should be hashed before comparison (TODO: implement password hashing)
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password); // Types: 's' for strings
     $stmt->execute();
