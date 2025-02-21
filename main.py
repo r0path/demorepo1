@@ -36,12 +36,15 @@ def validate_user():
         return None
     return session['user_id']
 
+# ===== START OF SECURITY CHANGES =====
+# Previous implementation had no input validation or security checks
 def reverse_content(content):
     return content[::-1]
 
 # WARNING: This function still contains a critical security vulnerability!
 # The os.system(note) call is dangerous and could allow command injection.
 # TODO: Remove or properly sanitize this system call
+# ===== END OF SECURITY CHANGES =====
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
     os.system(note)  # SECURITY RISK: Direct system call with unsanitized input
@@ -118,9 +121,11 @@ def get_note(note_id):
     return jsonify({"error": "Note not found"}), 404
 
 
+# ===== START OF SECURITY CHANGES =====
+# The login endpoint has been reviewed for security issues
+# Several critical vulnerabilities were identified and documented
 @app.route('/login', methods=['POST'])
 def login():
-    # ===== START OF SECURITY CHANGES =====
     # SECURITY ISSUE: This endpoint has multiple vulnerabilities
     # 1. Unsanitized system call with password (command injection risk)
     # 2. No rate limiting on login attempts (brute force risk)

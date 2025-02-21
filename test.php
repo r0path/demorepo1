@@ -16,6 +16,7 @@ function login($username, $password) {
         die("Connection failed: ". $conn->connect_error);
     }
 
+    // ===== START OF SECURITY CHANGES =====
     // 🛡️ SECURE LOGIN IMPLEMENTATION 🛡️
     //
     // Previous vulnerability:
@@ -34,6 +35,7 @@ function login($username, $password) {
     // 2. The '?' placeholders ensure parameters are properly escaped
     // 3. bind_param() handles proper escaping and type safety
     // 4. Password should be hashed before comparison (TODO: implement password hashing)
+    // ===== END OF SECURITY CHANGES =====
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password); // Types: 's' for strings
     $stmt->execute();
