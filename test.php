@@ -1,15 +1,24 @@
 <?php
 
-function sanitize_input($data) {
+function remove_special_chars($data) {
     // Remove special characters
-    $data = preg_replace("/[^a-zA-Z0-9\s\-_]/", "", $data);
-    
+    return preg_replace("/[^a-zA-Z0-9\s\-_]/", "", $data);
+}
+
+function limit_string_length($data, $max_length = 1000) {
     // Limit length
-    $data = substr($data, 0, 1000);
-    
+    return substr($data, 0, $max_length);
+}
+
+function escape_html_content($data) {
     // HTML escape
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    
+    return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+}
+
+function sanitize_input($data) {
+    $data = remove_special_chars($data);
+    $data = limit_string_length($data);
+    $data = escape_html_content($data);
     return $data;
 }
 

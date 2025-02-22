@@ -8,28 +8,32 @@ import html
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-def sanitize_input(data):
-    """
-    Sanitize user input to prevent injection attacks
-    - Strips special characters
-    - HTML escapes content
-    - Limits string length
-    """
+def validate_type(data):
+    """Validate and convert input to string"""
     if not isinstance(data, (str, int)):
         return ""
-    
-    # Convert to string
-    data = str(data)
-    
-    # Limit length
-    data = data[:1000]
-    
-    # Remove special characters
-    data = re.sub(r'[^a-zA-Z0-9\s\-_]', '', data)
-    
-    # HTML escape
-    data = html.escape(data)
-    
+    return str(data)
+
+def limit_length(data, max_length=1000):
+    """Limit string length"""
+    return data[:max_length]
+
+def remove_special_chars(data):
+    """Remove special characters"""
+    return re.sub(r'[^a-zA-Z0-9\s\-_]', '', data)
+
+def escape_html_content(data):
+    """Escape HTML content"""
+    return html.escape(data)
+
+def sanitize_input(data):
+    """
+    Sanitize user input to prevent injection attacks by applying all sanitization steps
+    """
+    data = validate_type(data)
+    data = limit_length(data)
+    data = remove_special_chars(data)
+    data = escape_html_content(data)
     return data
 
 
