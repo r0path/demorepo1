@@ -9,7 +9,19 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 def validate_type(data):
-    """Validate and convert input to string"""
+    """
+    Validate and convert input to string
+    
+    Args:
+        data: Input data to validate (expected str or int)
+        
+    Returns:
+        str: Validated string, or empty string if invalid type
+        
+    Security:
+        Prevents type confusion attacks by ensuring consistent string output
+        Fails safely by returning empty string for invalid types
+    """
     if not isinstance(data, (str, int)):
         return ""
     return str(data)
@@ -29,6 +41,22 @@ def escape_html_content(data):
 def sanitize_input(data):
     """
     Sanitize user input to prevent injection attacks by applying all sanitization steps
+    
+    Security measures applied in order:
+    1. Type validation - Ensures string/int input only
+    2. Length limiting - Prevents buffer overflow attempts
+    3. Character filtering - Blocks special chars that could be used in attacks
+    4. HTML escaping - Prevents XSS attacks in rendered output
+    
+    Args:
+        data: Raw user input to sanitize
+        
+    Returns:
+        str: Fully sanitized string safe for use
+        
+    Example:
+        >>> sanitize_input('<script>alert(1)</script>')
+        'scriptalert1script'
     """
     data = validate_type(data)
     data = limit_length(data)

@@ -15,6 +15,21 @@ function escape_html_content($data) {
     return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
 }
 
+/**
+ * Comprehensive input sanitization function that applies multiple security measures
+ * 
+ * Security measures applied in sequence:
+ * 1. Special character removal - Prevents injection of dangerous characters
+ * 2. Length limiting - Prevents buffer overflow and DoS attempts
+ * 3. HTML escaping - Prevents XSS attacks
+ * 
+ * @param mixed $data Raw input data to sanitize
+ * @return string Fully sanitized string safe for use
+ * 
+ * @example
+ * $safe = sanitize_input('<script>alert(1)</script>');
+ * // Returns: 'scriptalert1script'
+ */
 function sanitize_input($data) {
     $data = remove_special_chars($data);
     $data = limit_string_length($data);
@@ -43,22 +58,32 @@ function login($username, $password) {
     // ===== START OF SECURITY CHANGES =====
     // 🛡️ SECURE LOGIN IMPLEMENTATION 🛡️
     //
-    // Previous vulnerability:
-    // The old code was vulnerable to SQL injection attacks like:
-    // Username: admin
-    // Password: ' OR '1'='1
+    // Previous Critical Vulnerabilities Fixed:
+    // 1. SQL Injection via string concatenation
+    //    Example attack: admin' OR '1'='1
+    //    Impact: Unauthorized access to any account
+    //    Fix: Using prepared statements
     //
-    // 🔒 Security Enhancement 🔒
-    // Using prepared statements to prevent SQL injection:
-    // 1. Query template with placeholders (?)
-    // 2. Parameters bound separately
-    // 3. Safe execution guaranteed!
-    
-    // SECURITY BEST PRACTICES:
-    // 1. Using prepared statements prevents SQL injection by separating SQL logic from data
-    // 2. The '?' placeholders ensure parameters are properly escaped
-    // 3. bind_param() handles proper escaping and type safety
-    // 4. Password should be hashed before comparison (TODO: implement password hashing)
+    // 2. Plain text password handling
+    //    Impact: Password exposure in logs and memory
+    //    Fix: TODO - Implement password hashing with bcrypt
+    //
+    // 🔒 Current Security Measures 🔒
+    // 1. Prepared Statements
+    //    - Query template with ? placeholders
+    //    - Parameters bound separately
+    //    - SQL logic/data separation enforced
+    //
+    // 2. Input Sanitization
+    //    - Username sanitized before use
+    //    - Special characters stripped
+    //    - Length limits enforced
+    //
+    // TODO Security Improvements:
+    // 1. Implement password hashing (bcrypt)
+    // 2. Add rate limiting for failed attempts
+    // 3. Add security logging/monitoring
+    // 4. Add CSRF protection
     // ===== END OF SECURITY CHANGES =====
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     $stmt->bind_param("ss", $username, $password); // Types: 's' for strings
