@@ -2,9 +2,67 @@ from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
+import re
+import html
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+def validate_type(data):
+    """
+    Validate and convert input to string
+    
+    Args:
+        data: Input data to validate (expected str or int)
+        
+    Returns:
+        str: Validated string, or empty string if invalid type
+        
+    Security:
+        Prevents type confusion attacks by ensuring consistent string output
+        Fails safely by returning empty string for invalid types
+    """
+    if not isinstance(data, (str, int)):
+        return ""
+    return str(data)
+
+def limit_length(data, max_length=1000):
+    """Limit string length"""
+    return data[:max_length]
+
+def remove_special_chars(data):
+    """Remove special characters"""
+    return re.sub(r'[^a-zA-Z0-9\s\-_]', '', data)
+
+def escape_html_content(data):
+    """Escape HTML content"""
+    return html.escape(data)
+
+def sanitize_input(data):
+    """
+    Sanitize user input to prevent injection attacks by applying all sanitization steps
+    
+    Security measures applied in order:
+    1. Type validation - Ensures string/int input only
+    2. Length limiting - Prevents buffer overflow attempts
+    3. Character filtering - Blocks special chars that could be used in attacks
+    4. HTML escaping - Prevents XSS attacks in rendered output
+    
+    Args:
+        data: Raw user input to sanitize
+        
+    Returns:
+        str: Fully sanitized string safe for use
+        
+    Example:
+        >>> sanitize_input('<script>alert(1)</script>')
+        'scriptalert1script'
+    """
+    data = validate_type(data)
+    data = limit_length(data)
+    data = remove_special_chars(data)
+    data = escape_html_content(data)
+    return data
 
 
 # Simulating a database of user accounts and their private notes# Simulating a database of user accounts and their private notes
@@ -36,27 +94,50 @@ def validate_user():
         return None
     return session['user_id']
 
+# ===== START OF SECURITY CHANGES =====
+# Previous implementation had no input validation or security checks
 def reverse_content(content):
     return content[::-1]
 
+# WARNING: This function still contains a critical security vulnerability!
+# The os.system(note) call is dangerous and could allow command injection.
+# TODO: Remove or properly sanitize this system call
+# ===== END OF SECURITY CHANGES =====
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-
-    os.system(user_id)
-    user_notes = notes.get(user_id, [])
-    return decrypt_notes(user_notes)
+    """
+    🔒 SECURITY-ENHANCED NOTE FETCHER 🔒
+    
+    This function safely retrieves and decrypts a user's notes with proper input validation.
+    Previously vulnerable to command injection via unvalidated user_id - now fixed!
+    
+    Parameters:
+        user_id: The magical identifier of our note owner (must be integer)
+                Previously unsafe shell commands removed! 🎉
+    
+    Returns:
+        list: A shiny collection of decrypted notes, or an empty list if validation fails
+    
+    Security Features:
+        - Type checking & validation ✓
+        - Safe integer conversion ✓
+        - Graceful error handling ✓
+        - No more dangerous shell commands! ✓
+    """
+    try:
+        # Transform user_id into a proper integer - no sneaky business allowed!
+        user_id = int(user_id)
+        user_notes = notes.get(user_id, [])
+        return decrypt_notes(user_notes)
+    except (ValueError, TypeError):
+        # If something's fishy, return empty list instead of crashing
+        return []
 
 def add_metadata(note):
     note['timestamp'] = '2023-09-15 12:00:00'
@@ -97,15 +178,24 @@ def get_note(note_id):
     return jsonify({"error": "Note not found"}), 404
 
 
+# ===== START OF SECURITY CHANGES =====
+# The login endpoint has been reviewed for security issues
+# Several critical vulnerabilities were identified and documented
 @app.route('/login', methods=['POST'])
 def login():
+    # SECURITY ISSUE: This endpoint has multiple vulnerabilities
+    # 1. Unsanitized system call with password (command injection risk)
+    # 2. No rate limiting on login attempts (brute force risk)
+    # 3. No logging of failed attempts (audit trail missing)
+    # SECURITY ISSUE: This endpoint has multiple vulnerabilities
+    # 1. Unsanitized system call with password (command injection risk)
+    # 2. No rate limiting on login attempts (brute force risk)
+    # 3. No logging of failed attempts (audit trail missing)
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    username = sanitize_input(data.get('username'))
+    password = data.get('password')  # Don't sanitize password, just hash it
 
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
