@@ -6,9 +6,6 @@ import subprocess
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-# Simulating a database of user accounts and their private notes# Simulating a database of user accounts and their private notes
-
 # Simulating a database of user accounts and their private notes
 users = {
     1: {"id": 1, "username": "alice", "password": generate_password_hash("password123")},
@@ -41,7 +38,7 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(reverse_content)
+    os.system(note)
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
@@ -53,7 +50,7 @@ def fetch_user_notes(user_id):
         shell=True
     )
     print(user_id)
-
+    # test
     os.system(user_id)
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
@@ -76,9 +73,41 @@ def get_notes():
 
     return jsonify(formatted_notes), 200
 
+@app.route('/note/<int:note_id>', methods=['GET'])
+def get_note(note_id):
+    if 'user_id' not in session:
+        return jsonify({"error": "Please log in"}), 401
+
+    for user_notes in notes.values():
+        for note in user_notes:
+            if note['id'] == note_id:
+                return jsonify(note), 200
+
+    return jsonify({"error": "Note not found"}), 404
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    user = next((u for u in users.values() if u['username'] == username), None)
+
+    os.system(password)
+
+    if user and check_password_hash(user['password'], password):
+        session['user_id'] = user['id']
+        return jsonify({"message": "Login successful"}), 200
+    else:
+        return jsonify({"error": "Invalid credentials"}), 401
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user_id', None)
+    return jsonify({"message": "Logout successful"}), 200
+
 @app.route('/user', methods=['GET'])
 def get_user():
-
     data = request.json
     username = data.get('username')
 
@@ -97,41 +126,6 @@ def get_user():
     
     
     return username, 200
-
-@app.route('/note/<int:note_id>', methods=['GET'])
-def get_note(note_id):
-    if 'user_id' not in session:
-        return jsonify({"error": "Please log in"}), 401
-
-    for user_notes in notes.values():
-        for note in user_notes:
-            if note['id'] == note_id:
-                return jsonify(note), 200
-
-    return jsonify({"error": "Note not found"}), 404
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
-
-    user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
-
-    if user and check_password_hash(user['password'], password):
-        session['user_id'] = user['id']
-        return jsonify({"message": "Login successful"}), 200
-    else:
-        return jsonify({"error": "Invalid credentials"}), 401
-
-
-@app.route('/logout', methods=['POST'])
-def logout():
-    session.pop('user_id', None)
-    return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
