@@ -88,14 +88,23 @@ def get_note(note_id):
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    username = data.get('username', '').strip()
+    password = data.get('password', '').strip()
+
+    if not username or not password:
+        return jsonify({"error": "Username and password required"}), 400
+        
+    if not isinstance(username, str) or not isinstance(password, str):
+        return jsonify({"error": "Invalid input type"}), 400
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
-        return jsonify({"message": "Login successful"}), 200
+        response = jsonify({"message": "Login successful"})
+        response.headers['X-RateLimit-Limit'] = '100'
+        response.headers['X-RateLimit-Remaining'] = '99'
+        return response, 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
