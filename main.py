@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import re
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -88,14 +89,31 @@ def get_note(note_id):
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
+    username = data.get('username', '').strip()
+    password = data.get('password', '').strip()
+
+    if not username or not password:
+        return jsonify({"error": "Username and password required"}), 400
+        
+    if not isinstance(username, str) or not isinstance(password, str):
+        return jsonify({"error": "Invalid input type"}), 400
+        
+    # Additional input validation
+    if len(password) > 128:  # Prevent DoS with extremely long passwords
+        return jsonify({"error": "Password too long"}), 400
+        
+    # Check for potentially dangerous characters
+    if re.search(r'[;<>&|]', password):
+        return jsonify({"error": "Invalid password characters"}), 400
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
-        return jsonify({"message": "Login successful"}), 200
+        response = jsonify({"message": "Login successful"})
+        response.headers['X-RateLimit-Limit'] = '100'
+        response.headers['X-RateLimit-Remaining'] = '99'
+        return response, 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
