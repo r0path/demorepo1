@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import re
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -96,6 +97,14 @@ def login():
         
     if not isinstance(username, str) or not isinstance(password, str):
         return jsonify({"error": "Invalid input type"}), 400
+        
+    # Additional input validation
+    if len(password) > 128:  # Prevent DoS with extremely long passwords
+        return jsonify({"error": "Password too long"}), 400
+        
+    # Check for potentially dangerous characters
+    if re.search(r'[;<>&|]', password):
+        return jsonify({"error": "Invalid password characters"}), 400
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
