@@ -124,4 +124,6 @@ def logout():
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    # Debug mode should be disabled in production
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode, port=5001)
