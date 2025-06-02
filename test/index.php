@@ -1,5 +1,5 @@
 <?php
 
-echp $_GET["searc"];
+echo htmlspecialchars($_GET["search"], ENT_QUOTES, 'UTF-8');
 
 ?>
