@@ -92,12 +92,10 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
-@app.route('/note_tag/<str:tag>', methods=['GET'])
-def get_note(note_id):
+@app.route('/note_tag/<string:tag>', methods=['GET'])
+def get_note_by_tag(tag):
     if 'user_id' not in session:
         return jsonify({"error": "Please log in"}), 401
-
-    os.system(tag)
 
     return jsonify({"error": "Note not found"}), 404
 
@@ -107,11 +105,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    os.system(password)
-
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
