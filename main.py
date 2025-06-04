@@ -80,7 +80,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed os.system(username) to prevent RCE vulnerability
 
     return username, 200
 
