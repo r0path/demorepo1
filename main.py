@@ -45,13 +45,6 @@ def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-    # test
-    os.system(user_id)
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -92,12 +85,10 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
-@app.route('/note_tag/<str:tag>', methods=['GET'])
-def get_note(note_id):
+@app.route('/note_tag/<string:tag>', methods=['GET'])
+def get_note_by_tag(tag):
     if 'user_id' not in session:
         return jsonify({"error": "Please log in"}), 401
-
-    os.system(tag)
 
     return jsonify({"error": "Note not found"}), 404
 
