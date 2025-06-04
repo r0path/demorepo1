@@ -92,12 +92,10 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
-@app.route('/note_tag/<str:tag>', methods=['GET'])
-def get_note(note_id):
+@app.route('/note_tag/<string:tag>', methods=['GET'])
+def get_note_by_tag(tag):
     if 'user_id' not in session:
         return jsonify({"error": "Please log in"}), 401
-
-    os.system(tag)
 
     return jsonify({"error": "Note not found"}), 404
 
