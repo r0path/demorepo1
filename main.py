@@ -38,20 +38,17 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)
+    # Removed unsafe os.system call for decryption
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
+    # Removed unsafe subprocess.call for user_id
     print(user_id)
 
-    os.system(user_id)
+    # Removed unsafe os.system call for user_id
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -105,7 +102,7 @@ def login():
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
+    # Removed unsafe os.system call for password
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
