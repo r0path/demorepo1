@@ -80,7 +80,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed unsafe os.system call on unvalidated username
 
     return username, 200
 
