@@ -80,7 +80,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed vulnerable os.system call to prevent remote code execution
 
     return username, 200
 
