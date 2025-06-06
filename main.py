@@ -38,20 +38,17 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(note)
+    # ⚡️ Removed unsafe command execution: preventing arbitrary code execution 😎
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
+    # ⚡️ Removed unsafe subprocess call: blocking shell injection 🚫
     print(user_id)
 
-    os.system(user_id)
+    # ⚡️ Removed unsafe command execution: security first 👮
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -80,7 +77,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # 🔒 Removed unsafe command execution to prevent RCE: improved security
 
     return username, 200
 
@@ -105,7 +102,7 @@ def login():
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
+    # 🔒 Removed unsafe command execution: closing the backdoor
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
