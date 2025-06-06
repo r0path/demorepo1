@@ -134,8 +134,10 @@ def login():
     user = next((u for u in users.values() if u['username'] == username), None)
 
 
+    # Time to verify the credentials like a ninja 🥷
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
+        # Boom! You're in. Enjoy your secure notes 🚀
         return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
