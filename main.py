@@ -99,13 +99,14 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
+    # Authenticates user credentials and creates a session if valid
+    # Returns 200 if successful, 401 if invalid credentials
     data = request.json
     username = data.get('username')
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
