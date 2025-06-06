@@ -99,9 +99,9 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
-    # Authenticates a user with username and password
-    # Returns a 200 status code on successful login with a success message
-    # Returns a 401 status code on failed authentication
+    # Authenticate your vibe: securely check credentials and bring on the swagger ✨
+    # On success: session unlocked, confetti 🎉, and you’re officially in
+    # On failure: access refused, but keep that hustle alive 🚫
     data = request.json
     username = data.get('username')
     password = data.get('password')
