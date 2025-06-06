@@ -80,7 +80,9 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed unsafe system call to prevent RCE
+    # os.system(username)
+    app.logger.debug(f"get_user called for username: {username}")
 
     return username, 200
 
