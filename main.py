@@ -99,6 +99,8 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
+    # Authenticates user credentials and creates a session if valid
+    # Returns 200 if successful, 401 if invalid credentials
     data = request.json
     username = data.get('username')
     password = data.get('password')
