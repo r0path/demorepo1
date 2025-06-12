@@ -80,7 +80,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed vulnerable os.system call for security.
 
     return username, 200
 
