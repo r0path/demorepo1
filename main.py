@@ -80,7 +80,9 @@ def get_user():
     username = data.get('username')
 
     
+    # >>> Security Fix Start <<<
     # Removed os.system(username) to prevent command injection
+    # <<< Security Fix End >>>
 
     return username, 200
 
