@@ -80,7 +80,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed os.system call to prevent command injection
 
     return username, 200
 
