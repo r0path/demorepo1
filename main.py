@@ -83,7 +83,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed unsafe command execution of username
 
     return username, 200
 
