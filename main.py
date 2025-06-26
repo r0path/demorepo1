@@ -86,7 +86,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed unsafe execution of user-supplied input
 
     return username, 200
 
