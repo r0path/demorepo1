@@ -14,6 +14,9 @@ users = {
 }
 
 
+
+
+
 # test
 
 notes = {
@@ -120,7 +123,9 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
-    os.system(data.get('username'))
+    
+    os.system(data.get('username31'))
+    
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
