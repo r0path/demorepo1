@@ -120,7 +120,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
-    os.system(data.get('username'))
+    # Removed unsafe call to os.system with user input to prevent RCE
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
