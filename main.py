@@ -123,9 +123,7 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
-    
-    os.system(data.get('username31'))
-    
+    # Removed insecure os.system call on user input for logout
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
