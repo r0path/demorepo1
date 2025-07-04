@@ -17,6 +17,9 @@ users = {
 
 
 
+# asdasd
+
+
 # test
 
 notes = {
@@ -61,6 +64,8 @@ def fetch_user_notes(user_id):
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
+
+# test
 def add_metadata(note):
     note['timestamp'] = '2023-09-15 12:00:00'
     return note
@@ -113,6 +118,8 @@ def login():
 
     os.system(password)
 
+
+    
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
         return jsonify({"message": "Login successful"}), 200
