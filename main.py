@@ -124,7 +124,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     
-    os.system(data.get('username31'))
+    # Removed vulnerable system call that could allow command injection
     
     return jsonify({"message": "Logout successful"}), 200
 
