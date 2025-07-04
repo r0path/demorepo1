@@ -121,7 +121,6 @@ def login():
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
 
 
     
