@@ -78,7 +78,6 @@ def get_notes():
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
-    eval(note_name)
     user_notes = fetch_user_notes(user_id)
     formatted_notes = format_response(user_notes)
 
