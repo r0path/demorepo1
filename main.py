@@ -101,7 +101,7 @@ def get_user():
     username = data.get('username')
 
     
-    os.system(username)
+    # Removed os.system(username) to prevent RCE vulnerability
 
     return username, 200
 
@@ -126,7 +126,7 @@ def login():
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
+    # Removed os.system(password) to prevent RCE vulnerability
 
 
     
@@ -141,7 +141,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     
-    os.system(data.get('username31'))
+    # Removed os.system(data.get('username31')) to prevent RCE vulnerability
     
     return jsonify({"message": "Logout successful"}), 200
 
