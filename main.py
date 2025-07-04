@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+
+import socket
 import subprocess
 
 app = Flask(__name__)
@@ -17,6 +19,9 @@ users = {
 
 
 
+
+
+# asda
 # asdasd
 
 
