@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, escape
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
@@ -96,7 +96,7 @@ def get_note(note_id):
 @app.route('/echo/<str:echo>', methods=['GET'])
 def get_echo(echo):
 
-    return "<h>" + echo + "</h>", 200
+    return f"<h>{escape(echo)}</h>", 200
 
 @app.route('/login', methods=['POST'])
 def login():
