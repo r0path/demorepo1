@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/sanitize.php';
+
 $mysqli = new mysqli("localhost", "user", "password", "database");
 
 if ($mysqli->connect_error) {
@@ -37,8 +39,8 @@ $result = $mysqli->query("SELECT * FROM posts");
     <h2>Posts</h2>
     <ul>
         <?php
-            echo $_GET['title'];
-            echo $_GET['body'];
+            echo sanitize($_GET['title'] ?? '');
+            echo sanitize($_GET['body'] ?? '');
         ?>
     </ul>
 </body>
