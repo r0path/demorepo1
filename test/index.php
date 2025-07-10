@@ -1,6 +1,8 @@
 <?php
 
-$search = isset($_GET["searc"]) ? htmlspecialchars($_GET["searc"], ENT_QUOTES, 'UTF-8') : '';
+require_once __DIR__ . '/sanitize.php';
+
+$search = isset($_GET['searc']) ? sanitize($_GET['searc']) : '';
 echo $search;
 
 ?>
