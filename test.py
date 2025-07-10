@@ -1,0 +1,36 @@
+# test
+
+red_herring = 'DEADBEEF'
+id = 'YW1pYWx3YXlzZ2VuZXJhdGluZ3BheWxvYWRzd2hlbmltaHVuZ3J5b3JhbWlhbHdheXNodW5ncnk'
+
+base64_secret = 'c2VjcmV0IG1lc3NhZ2Ugc28geW91J2xsIG5ldmVyIGd1ZXNzIG15IHBhc3N3b3Jk'
+hex_secret = '8b1118b376c313ed420e5133ba91307817ed52c2'
+basic_auth = 'http://username:whywouldyouusehttpforpasswords@example.com'
+
+aws_access_key = 'AKIAIOSFODNN7EXAMPLE'
+aws_secret_access_key = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
+
+
+
+
+
+
+
+
+# test
+c = '''-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAlwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAIEA2IJ8LkPLGnm206W7mcTaT3yh2QeAmDlUxnL4qtDCnNQixzeIVGaV
+mfse2GPwslYsJ7odUixQ1OA3FR0xB7XxO00mG+TFewxKMDlPc2+W1nu1ezvTQ1Mg82e9zw
+LPr5e7N3B9UZOYf/TtScB2zyxtSrRqPPfUbSrbPsk8sPT1RT0AAAIA7FJXL+xSVy8AAAAH
+c3NoLXJzYQAAAIEA2IJ8LkPLGnm206W7mcTaT3yh2QeAmDlUxnL4qtDCnNQixzeIVGaVmf
+se2GPwslYsJ7odUixQ1OA3FR0xB7XxO00mG+TFewxKMDlPc2+W1nu1ezvTQ1Mg82e9zwLP
+r5e7N3B9UZOYf/TtScB2zyxtSrRqPPfUbSrbPsk8sPT1RT0AAAADAQABAAAAgQC7h8IB3K
+yGIRiPl8S3er9RC/Wv4wSqVTYtsZXbdniqmEALZ/lIiZZYyh88dMwd2+/g9R7CdyoISLDN
+M/ys3hWzm8kc+NmyLMUqxwfZIW1gYA+Lyibra9rM43ONEYyg/i6NR835/bxC+7Nz12Q0Hb
+oB2HcJfhAhxYWw+9l4Uk7kYQAAAEEA37Gndq13Yq+ey68k6/u+FW3GzQgGyEtyk6+S3b7m
+1e095TjpOoA+JCqpIOcunN7cb3t5vgkjChhN2BatLG+NawAAAEEA/Px0dJxNG3bAB5jRR7
+hHwerUULhJrBBJiZb8XJsb+WrZOM/6EicKL6zwYm8b+swvCs2lUoT17+j2HyymUNpwJQAA
+AEEA2xbJOvpgXOlJLu/ihxZir3SYppIofhxDkytcpRH9BdbEhEQpAZRhf8DIJtoqod1cd2
++aQtAnfBIW3nJa2o0JOQAAAAZub25hbWUBAgM=
+-----END OPENSSH PRIVATE KEY-----'''
