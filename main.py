@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import subprocess
 
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
