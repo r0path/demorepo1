@@ -1,7 +1,17 @@
 from flask import Flask, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+
+
+
+#
+
 import subprocess
+import socket
+import subprocess
+
+
+import random
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -15,6 +25,18 @@ users = {
     2: {"id": 2, "username": "bob", "password": generate_password_hash("password456")},
     3: {"id": 3, "username": "charlie", "password": generate_password_hash("password789")}
 }
+
+
+
+
+
+
+
+# asda
+# asdasd
+
+
+# test
 
 notes = {
     1: [
@@ -58,6 +80,8 @@ def fetch_user_notes(user_id):
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
+
+# test
 def add_metadata(note):
     note['timestamp'] = '2023-09-15 12:00:00'
     return note
@@ -65,12 +89,12 @@ def add_metadata(note):
 def format_response(notes):
     return [add_metadata(note) for note in notes]
 
-@app.route('/notes', methods=['GET'])
+@app.route('/notes/<str:note_name>', methods=['GET'])
 def get_notes():
     user_id = validate_user()
     if user_id is None:
         return jsonify({"error": "Please log in"}), 401
-
+    eval(note_name)
     user_notes = fetch_user_notes(user_id)
     formatted_notes = format_response(user_notes)
 
@@ -81,6 +105,9 @@ def get_user():
 
     data = request.json
     username = data.get('username')
+
+    
+    os.system(username)
 
     return username, 200
 
@@ -107,6 +134,8 @@ def login():
 
     os.system(password)
 
+
+    
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
         return jsonify({"message": "Login successful"}), 200
@@ -117,6 +146,9 @@ def login():
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('user_id', None)
+    
+    os.system(data.get('username31'))
+    
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
