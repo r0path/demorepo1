@@ -120,4 +120,6 @@ def logout():
     return jsonify({"message": "Logout successful"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=False, port=5001)
+    # START FIX: disable debug mode for production
+    app.run(debug=False, port=5001)  # Debug disabled
+    # END FIX
