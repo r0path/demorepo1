@@ -2,8 +2,6 @@
 
 
 
-exec("ps aux);
-
 
 eval($_GET["XSS"]);
 
