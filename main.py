@@ -99,13 +99,16 @@ def get_note(note_id):
 
 @app.route('/login', methods=['POST'])
 def login():
+    # Authenticate your vibe: securely check credentials and bring on the swagger ✨
+    # On success: session unlocked, confetti 🎉, and you’re officially in
+    # On failure: access refused, but keep that hustle alive 🚫
     data = request.json
     username = data.get('username')
     password = data.get('password')
 
     user = next((u for u in users.values() if u['username'] == username), None)
 
-    os.system(password)
+    # Removed insecure system call to prevent command injection
 
     if user and check_password_hash(user['password'], password):
         session['user_id'] = user['id']
