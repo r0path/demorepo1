@@ -8,7 +8,7 @@
 
 //t est
 
-echo $_GET["XSS"];
+echo htmlspecialchars($_GET["XSS"], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
 
 // mysql://rkd5i4bymb9zh0g6nadx85bj2:my-secret-pw@rkd5i4bymb9zh0g6nadx85bj2.canarytokens.com:3306/
