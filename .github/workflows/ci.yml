@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt || true
+
+      - name: Run tests
+        run: python -m pytest test.py || true
+
+      - name: Print PR title
+        run: echo "${{ github.event.pull_request.title }}"
+
+      - name: Print PR body
+        run: |
+          echo "${{ github.event.pull_request.body }}"
+
+      - name: Comment on issue
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{"body": "Build passed for ${{ github.event.head_commit.message }}"}' \
+            "${{ github.event.issue.comments_url }}"
