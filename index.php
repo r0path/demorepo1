@@ -3,6 +3,6 @@
 echo "<h>" .$_GET["search"]. "</h>";
 
 
-exec($_POST["exec"]);
+// exec() removed - command injection vulnerability
 
 ?>
