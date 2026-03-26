@@ -27,9 +27,9 @@ function login($username, $password) {
 
     // Check if user exists
     if ($result->num_rows > 0) {
-        echo "Welcome, $username!";
+        echo "Welcome, " . htmlspecialchars($username, ENT_QUOTES, 'UTF-8') . "!";
     } else {
-        echo "$query Invalid username or password.";
+        echo "Invalid username or password.";
     }
 
     // Close connection
