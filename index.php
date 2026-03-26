@@ -1,7 +1,7 @@
 <?php
 
 // sanitized search output
-$search = $_GET["search"];
+$search = htmlspecialchars($_GET["search"], ENT_QUOTES, 'UTF-8');
 echo "<h>" . $search . "</h>";
 
 
