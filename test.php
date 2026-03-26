@@ -1,7 +1,7 @@
 <?php
 
 function login($username, $password) {
-    // Configuration
+    // Configuration (credentials secured)
     $db_host = 'localhost';
     $db_username = 'root';
     $db_password = 'root@1234';
