@@ -1,11 +1,11 @@
 <?php
 
 function login($username, $password) {
-    // Configuration
-    $db_host = 'localhost';
-    $db_username = 'root';
-    $db_password = 'root@1234';
-    $db_name = 'arnicaTest';
+    // Configuration from environment variables
+    $db_host = getenv('DB_HOST') ?: 'localhost';
+    $db_username = getenv('DB_USERNAME') ?: 'root';
+    $db_password = getenv('DB_PASSWORD');
+    $db_name = getenv('DB_NAME') ?: 'arnicaTest';
 
 
     // Connect to database
