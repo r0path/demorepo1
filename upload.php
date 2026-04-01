@@ -1,6 +1,7 @@
 <?
 
 
+echo $_GET['asdf'];
 
 
 // eval() removed - arbitrary code execution vulnerability
