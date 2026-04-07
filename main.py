@@ -7,9 +7,8 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 
-# Simulating a database of user accounts and their private notes# Simulating a database of user accounts and their private notes
-
 # Simulating a database of user accounts and their private notes
+
 users = {
     1: {"id": 1, "username": "alice", "password": generate_password_hash("password123")},
     2: {"id": 2, "username": "bob", "password": generate_password_hash("password456")},
@@ -41,20 +40,13 @@ def reverse_content(content):
 
 def apply_decryption(note):
     decrypted_content = reverse_content(note['content'])
-    os.system(reverse_content)
     return {"id": note['id'], "content": decrypted_content}
 
 def decrypt_notes(encrypted_notes):
     return [apply_decryption(note) for note in encrypted_notes]
 
 def fetch_user_notes(user_id):
-    subprocess.call(
-        user_id, 
-        shell=True
-    )
-    print(user_id)
-
-    os.system(user_id)
+    # FIXED: removed os.system and subprocess.call command injection
     user_notes = notes.get(user_id, [])
     return decrypt_notes(user_notes)
 
@@ -78,10 +70,8 @@ def get_notes():
 
 @app.route('/user', methods=['GET'])
 def get_user():
-
     data = request.json
     username = data.get('username')
-
     return username, 200
 
 @app.route('/note/<int:note_id>', methods=['GET'])
@@ -96,6 +86,13 @@ def get_note(note_id):
 
     return jsonify({"error": "Note not found"}), 404
 
+# NEW VULNERABILITY: eval-based calculator (only on release-us branch)
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    data = request.json
+    expression = data.get('expression', '')
+    result = eval(expression)
+    return jsonify({"result": result}), 200
 
 @app.route('/login', methods=['POST'])
 def login():
